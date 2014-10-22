@@ -15,14 +15,14 @@ public class ClientListener implements Runnable {
 				Socket socketCliente = socketServidor.accept();
 				System.out.println("DEBUG: Cliente encontrado!");
 				Runnable handler = new ClientHandler(socketCliente);
-		        Thread hilo = new Thread(handler);
-		        hilo.start();
-		        System.out.println("DEBUG: Hilo de cliente iniciado!");
+				Thread hilo = new Thread(handler);
+				hilo.start();
+				System.out.println("DEBUG: Hilo de cliente iniciado!");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
 }

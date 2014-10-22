@@ -3,7 +3,6 @@ package servidor;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
@@ -14,10 +13,11 @@ import java.util.List;
 import json.QueryManager;
 
 public class ClientHandler implements Runnable {
-	
+
 	private static String ERROR_DB = "Base de datos no encontrada";
 
 	private Socket socketCliente;
+	private boolean esConsulta;
 	private int filasActualizadas;
 	private Statement query;
 	private boolean error;
@@ -28,22 +28,24 @@ public class ClientHandler implements Runnable {
 		socketCliente = cliente;
 		error = false;
 	}
-	
+
 	public boolean crearConexion(String db) {
 		boolean encontrado = false;
 		if (db.equals(ControladorServidor.BD_PERSONAL)) {
-			factory = new ConnectionFactory(ControladorServidor.ARCHIVO_POSTGRESQL);
+			factory = new ConnectionFactory(
+					ControladorServidor.ARCHIVO_POSTGRESQL);
 			System.out.println("DEBUG: Creada connectionFactory con Postgres!");
 			encontrado = true;
 		} else if (db.equals(ControladorServidor.BD_FACTURACION)) {
-			factory = new ConnectionFactory(ControladorServidor.ARCHIVO_FIREBIRD);
+			factory = new ConnectionFactory(
+					ControladorServidor.ARCHIVO_FIREBIRD);
 			System.out.println("DEBUG: Creada connectionFactory con Firebird!");
 			encontrado = true;
 		}
 		return encontrado;
 	}
 
-	public ArrayList<ArrayList<String>> resultSetToArrayList(ResultSet rs) {
+	public ArrayList<ArrayList<String>> respuestaDeQueryAListas(ResultSet rs) {
 		ArrayList<ArrayList<String>> arreglos = null;
 		ArrayList<String> arregloColumnas = null;
 		ArrayList<String> arregloValores = null;
@@ -76,7 +78,7 @@ public class ClientHandler implements Runnable {
 		try {
 			query = factory.getConnection().createStatement();
 			System.out.println("DEBUG: Consulta: " + consulta);
-			boolean esConsulta = query.execute(consulta);
+			esConsulta = query.execute(consulta);
 			if (esConsulta) {
 				resultado = query.getResultSet();
 			} else {
@@ -95,12 +97,15 @@ public class ClientHandler implements Runnable {
 	public void run() {
 		ArrayList<ArrayList<String>> arreglos = null;
 		try {
-			DataInputStream ois = new DataInputStream(socketCliente.getInputStream());
-			DataOutputStream oos = new DataOutputStream(socketCliente.getOutputStream());
+			DataInputStream ois = new DataInputStream(
+					socketCliente.getInputStream());
+			DataOutputStream oos = new DataOutputStream(
+					socketCliente.getOutputStream());
 			System.out.println("DEBUG: A punto de leer la consulta!");
 			String consultaJSON = ois.readUTF();
 			System.out.println("DEBUG: Consulta leida!");
-			List<String> listaDeConsulta = QueryManager.decodificarQuery(consultaJSON);
+			List<String> listaDeConsulta = QueryManager
+					.decodificarQuery(consultaJSON);
 			System.out.println("DEBUG: Consulta decodificada!");
 			String respuesta;
 			if (crearConexion(listaDeConsulta.get(0))) {
@@ -108,12 +113,17 @@ public class ClientHandler implements Runnable {
 				String consulta = listaDeConsulta.get(1);
 				ResultSet resultado = enviarConsulta(consulta);
 				if (resultado != null) {
-					arreglos = resultSetToArrayList(resultado);
+					arreglos = respuestaDeQueryAListas(resultado);
 				}
 				if (error)
 					respuesta = QueryManager.crearError(msgError);
+				else if (esConsulta)
+					respuesta = QueryManager.crearRespuesta(arreglos.get(0),
+							arreglos.get(1));
 				else
-					respuesta = QueryManager.crearRespuesta(arreglos.get(0), arreglos.get(1));
+					respuesta = QueryManager
+							.crearRespuestaDeActualizacion(String
+									.valueOf(filasActualizadas));
 			} else {
 				respuesta = QueryManager.crearError(ERROR_DB);
 			}

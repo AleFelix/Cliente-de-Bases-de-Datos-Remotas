@@ -11,10 +11,10 @@ public class ConnectionFactory {
 	private String servidor;
 	private String puerto;
 	private String baseDeDatos;
-	private String direccion ;
+	private String direccion;
 	private String usuario;
 	private String password;
-	
+
 	public ConnectionFactory(String archivoXML) {
 		ParseadorDeXML parser = new ParseadorDeXML();
 		parser.parsearXML(archivoXML);

@@ -12,7 +12,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class ParseadorDeXML {
-	
+
 	public static final String SERVIDOR = "servidor";
 	public static final String PUERTO = "puerto";
 	public static final String BASE_DE_DATOS = "base_de_datos";
@@ -35,11 +35,11 @@ public class ParseadorDeXML {
 			ioe.printStackTrace();
 		}
 	}
-	
+
 	public String obtenerValor(String etiqueta) {
 		Element elemento = documento.getDocumentElement();
 		NodeList list = elemento.getElementsByTagName(etiqueta);
 		return list.item(0).getTextContent();
 	}
-	
+
 }
