@@ -18,6 +18,11 @@ public class ConnectionFactory {
 
 	public ConnectionFactory(String archivoXML) {
 		ParseadorDeXML parser = new ParseadorDeXML();
+		if (!parser.chequearSiExisteXML(archivoXML))
+			if (archivoXML.equals(ControladorServidor.ARCHIVO_FIREBIRD))
+				parser.crearXML(ControladorServidor.BACKUP_FIREBIRD, archivoXML);
+			else if (archivoXML.equals(ControladorServidor.ARCHIVO_POSTGRESQL))
+				parser.crearXML(ControladorServidor.BACKUP_POSTGRESQL, archivoXML);
 		parser.parsearXML(archivoXML);
 		servidor = parser.obtenerValor(ParseadorDeXML.SERVIDOR);
 		puerto = parser.obtenerValor(ParseadorDeXML.PUERTO);

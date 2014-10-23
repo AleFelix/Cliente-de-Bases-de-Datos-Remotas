@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conexion>
+	<servidor>localhost</servidor>
+	<puerto>5432</puerto>
+	<base_de_datos>personal</base_de_datos>
+	<direccion>jdbc:postgresql://localhost:5432/personal</direccion>
+	<usuario>postgres</usuario>
+	<password>root</password>
+</conexion>

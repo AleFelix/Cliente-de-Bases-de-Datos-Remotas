@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<conexion>
+	<servidor>localhost</servidor>
+	<puerto>3050</puerto>
+	<base_de_datos>/home/ale/databases/facturacion.gdb</base_de_datos>
+	<direccion>jdbc:firebirdsql:localhost/3050:/home/ale/databases/facturacion.gdb</direccion>
+	<usuario>SYSDBA</usuario>
+	<password>masterkey</password>
+</conexion>

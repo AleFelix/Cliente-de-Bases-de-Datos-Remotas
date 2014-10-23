@@ -3,6 +3,9 @@ package cliente;
 import java.util.List;
 
 public class ControladorCliente {
+	
+	public static final String ARCHIVO_CONEXION = "./XML/ConexionCliente.xml";
+	public static final String BACKUP_CONEXION = "/XML/ConexionCliente.xml";
 
 	VistaVentanaCliente v;
 	ModeloCliente m;

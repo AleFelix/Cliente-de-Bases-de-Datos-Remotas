@@ -19,8 +19,6 @@ import javax.swing.table.DefaultTableModel;
 
 import json.QueryManager;
 
-import java.awt.Dimension;
-
 public class VistaVentanaCliente extends JFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -153,8 +151,6 @@ public class VistaVentanaCliente extends JFrame {
 			}
 			lblResultado.setText("La consulta se ha ejecutado");
 			lblResultado.setSize(lblResultado.getPreferredSize());
-			revalidate();
-			repaint();
 		}
 		lblEstado.setText("Conexión establecida");
 		controlador.avisarCierreDeSocket();

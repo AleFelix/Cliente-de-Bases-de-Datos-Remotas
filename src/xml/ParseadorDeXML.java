@@ -1,11 +1,14 @@
 package xml;
 
+import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.io.FileUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -19,8 +22,28 @@ public class ParseadorDeXML {
 	public static final String DIRECCION = "direccion";
 	public static final String USUARIO = "usuario";
 	public static final String PASSWORD = "password";
+	
+	public static final String CARPETA = "./XML";
 
 	private Document documento;
+	
+	public ParseadorDeXML() {
+		new File(CARPETA).mkdirs();
+	}
+	
+	public boolean chequearSiExisteXML(String archivo) {
+		return new File(archivo).isFile();
+	}
+	
+	public void crearXML(String origen, String destino) {
+		URL inputUrl = getClass().getResource(origen);
+		File dest = new File(destino);
+		try {
+			FileUtils.copyURLToFile(inputUrl, dest);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public void parsearXML(String archivoXML) {
 		DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
