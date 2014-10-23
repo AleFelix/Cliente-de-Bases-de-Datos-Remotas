@@ -5,12 +5,12 @@ import java.util.Scanner;
 
 import json.QueryManager;
 
-public class VistaCliente {
+public class VistaConsolaCliente {
 
 	private Scanner entrada;
 	private ControladorCliente controlador;
 
-	public VistaCliente(ControladorCliente c) {
+	public VistaConsolaCliente(ControladorCliente c) {
 		controlador = c;
 		entrada = new Scanner(System.in);
 	}

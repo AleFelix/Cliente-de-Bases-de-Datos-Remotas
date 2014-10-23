@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import xml.ParseadorDeXML;
 
+@SuppressWarnings("unused")
 public class ConnectionFactory {
 
 	private String servidor;

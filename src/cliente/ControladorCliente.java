@@ -4,13 +4,12 @@ import java.util.List;
 
 public class ControladorCliente {
 
-	VistaCliente v;
+	VistaVentanaCliente v;
 	ModeloCliente m;
 
 	public ControladorCliente() {
-		v = new VistaCliente(this);
+		v = new VistaVentanaCliente(this);
 		m = new ModeloCliente(this);
-		v.menuPrincipal();
 	}
 
 	public void enviarDatos(String db, String query) {
